@@ -334,6 +334,8 @@ const questions =
     let score = 0;
     let incorrectAnswers = [];
     let userAnswers = [];
+let mailPingImg = null;
+
 
 function notifyTeacherTestStarted() {
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjZflcxCygbQDkWQHEv1ZpDbTPLzwZV0wA3d21WlAFwpgHyeHWWWZBw5cVUsO1b9HScg/exec";
@@ -347,12 +349,38 @@ function notifyTeacherTestStarted() {
     pageUrl: window.location.href
   });
 
-  const img = new Image();
-  img.src = WEB_APP_URL + "?" + params.toString();
+  const url = WEB_APP_URL + "?" + params.toString();
+
+  // ✅ Wichtig für iOS/Handy: global speichern, sonst wird der Request oft abgebrochen
+  mailPingImg = new Image();
+  mailPingImg.src = url;
+
+  // ✅ Fallback (zusätzliche Chance, falls Image-Ping blockiert wird)
+  try {
+    const payload = JSON.stringify({
+      secret: SECRET,
+      studentName: "Stefan",
+      eventType: "start",
+      quizTitle: document.title,
+      pageUrl: window.location.href
+    });
+
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(WEB_APP_URL, new Blob([payload], { type: "application/json" }));
+    } else {
+      fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+        keepalive: true
+      }).catch(() => {});
+    }
+  } catch (_) {}
 }
 
+
 function startQuiz() {
-  notifyTeacherTestStarted(); // ✅ Mail-Trigger
+setTimeout(notifyTeacherTestStarted, 50); // ✅ Mobile zuverlässiger
 
   document.querySelector('.start-screen').style.display = 'none';
   document.querySelector('.question-screen').style.display = 'flex';
