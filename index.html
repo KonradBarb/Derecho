@@ -334,9 +334,10 @@ const questions =
     let score = 0;
     let incorrectAnswers = [];
     let userAnswers = [];
-let mailPingImg = null;   // ✅ hinzufügen
-let mailPingFrame = null;
+let mailPingImg = null;
 let startEventId = null;
+let startNotified = false;
+
 
 
 
@@ -344,11 +345,11 @@ function notifyTeacherTestStarted() {
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjZflcxCygbQDkWQHEv1ZpDbTPLzwZV0wA3d21WlAFwpgHyeHWWWZBw5cVUsO1b9HScg/exec";
   const SECRET = "SxhuleeerQuiz_2025_x98d76_22_MEINSECRET";
 
-  // ✅ pro Start genau eine ID (wichtig für Duplikat-Sperre im Backend)
+  // pro Start genau eine ID (für Duplikat-Sperre im Backend)
   if (!startEventId) {
-startEventId = (window.crypto && window.crypto.randomUUID)
-  ? window.crypto.randomUUID()
-  : (Date.now() + "_" + Math.random());
+    startEventId = (window.crypto && window.crypto.randomUUID)
+      ? window.crypto.randomUUID()
+      : (Date.now() + "_" + Math.random());
   }
 
   const params = new URLSearchParams({
@@ -358,44 +359,25 @@ startEventId = (window.crypto && window.crypto.randomUUID)
     quizTitle: document.title,
     pageUrl: window.location.href,
     eventId: String(startEventId),
-    cb: String(Date.now()) // Cache-Buster
+    cb: String(Date.now())
   });
 
   const url = WEB_APP_URL + "?" + params.toString();
 
-  // ✅ 1) Image-Ping (schnell)
+  // ✅ Hauptweg (mobil zuverlässig)
+  try {
+    fetch(url, { method: "GET", mode: "no-cors", cache: "no-store", keepalive: true })
+      .catch(() => {});
+  } catch (_) {}
+
+  // ✅ Fallback (falls fetch zickt)
   mailPingImg = new Image();
   mailPingImg.src = url;
-
-  // ✅ 2) iOS-sicherer: Hidden-iframe (sehr zuverlässig)
-  mailPingFrame = document.createElement("iframe");
-  mailPingFrame.style.display = "none";
-  mailPingFrame.src = url;
-  document.body.appendChild(mailPingFrame);
-  setTimeout(() => {
-    if (mailPingFrame && mailPingFrame.parentNode) mailPingFrame.parentNode.removeChild(mailPingFrame);
-    mailPingFrame = null;
-  }, 4000);
-
-  // ✅ 3) Zusatz-Fallback (kann helfen, wird aber serverseitig dedupliziert)
-  try {
-    const payload = JSON.stringify({
-      secret: SECRET,
-      studentName: "Stefan",
-      eventType: "start",
-      quizTitle: document.title,
-      pageUrl: window.location.href,
-      eventId: String(startEventId)
-    });
-
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(WEB_APP_URL, new Blob([payload], { type: "application/json" }));
-    }
-  } catch (_) {}
 }
 
-
+// ✅ nur EINMAL auslösen (Double-Tap Schutz)
 let startNotified = false;
+
 function startQuiz() {
   if (!startNotified) {
     startNotified = true;
@@ -404,7 +386,7 @@ function startQuiz() {
 
   document.querySelector('.start-screen').style.display = 'none';
   document.querySelector('.question-screen').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'; // ✨ Scrollen verhindern
   showQuestion();
 }
 
