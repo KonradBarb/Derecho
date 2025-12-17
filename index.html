@@ -124,17 +124,22 @@
       background-color: #777;
     }
 
-  .result-screen {
-  display: none;
-  min-height: 100vh;          /* statt height: 100vh */
-  justify-content: flex-start; /* nicht zentrieren, damit man nach unten scrollen kann */
-  align-items: center;
-  flex-direction: column;
-  padding: 20px;
-  padding-bottom: 80px;        /* extra Platz unten, damit Icons sicher sichtbar sind */
-  overflow-y: auto;            /* Scrollen auf Auswertungsseite */
-  -webkit-overflow-scrolling: touch; /* smoother scroll auf iPhone */
-    }
+/* ✅ Result-Screen: echte Scroll-Fläche auf Mobile */
+.result-screen{
+  position: fixed;
+  inset: 0;                  /* top/right/bottom/left: 0 */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  justify-content: flex-start;
+  padding-bottom: 120px;     /* genug Platz unter dem Button */
+  touch-action: pan-y;       /* <-- WICHTIG: vertikal scrollen erlauben */
+}
+
+/* optional: Icons immer klickbar */
+.social-icons{
+  padding-bottom: 40px;
+}
+
 
     .result-screen h2 {
       font-size: 1.5em;
@@ -430,6 +435,8 @@ function startQuiz() {
       document.querySelector('.question-screen').style.display = 'none';
       const resultScreen = document.querySelector('.result-screen');
       resultScreen.style.display = 'flex';
+resultScreen.scrollTop = 0;
+
       document.body.style.overflow = 'auto'; // ✨ Scrollen auf Auswertungsseite erlauben
 
       const scoreText = document.getElementById('score-text');
