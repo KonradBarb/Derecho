@@ -342,8 +342,7 @@ let startNotified = false;
 
 
 function notifyTeacherTestStarted() {
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxo45rnFyjqNI1bkANTPcv8R0uZmnxXzjQQcfONxzGN0MV5lSRNTLbIvBxvi4F_0AGfKg/exec";
-
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx2xTjP0Gnq6bwVGmtLaKDrUQZwy4JB6pcTiHNUXQ7wDLkVs9WfjxjU5zRGW4ahTD-P8w/exec";
   const SECRET = "SxhuleeerQuiz_2025_x98d76_22_MEINSECRET";
 
   // pro Start genau eine ID (für Duplikat-Sperre im Backend)
@@ -353,30 +352,44 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxo45rnFyjqNI1bkANT
       : (Date.now() + "_" + Math.random());
   }
 
-  const params = new URLSearchParams({
+  const payloadObj = {
     secret: SECRET,
     studentName: "Stefan",
     eventType: "start",
     quizTitle: document.title,
     pageUrl: window.location.href,
-    eventId: String(startEventId),
-    cb: String(Date.now())
-  });
+    eventId: String(startEventId)
+  };
 
-  const url = WEB_APP_URL + "?" + params.toString();
-
-  // ✅ Hauptweg (mobil zuverlässig)
+  // 1) PRIMARY: sendBeacon (auf iOS oft am zuverlässigsten)
   try {
-    fetch(url, { method: "GET", mode: "no-cors", cache: "no-store", keepalive: true })
-      .catch(() => {});
+    if (navigator.sendBeacon) {
+      const blob = new Blob([JSON.stringify(payloadObj)], { type: "application/json" });
+      navigator.sendBeacon(WEB_APP_URL, blob);
+    }
   } catch (_) {}
 
-  // ✅ Fallback (falls fetch zickt)
-  mailPingImg = new Image();
-  mailPingImg.src = url;
+  // 2) Fallback: fetch POST keepalive
+  try {
+    fetch(WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payloadObj),
+      cache: "no-store",
+      keepalive: true
+    }).catch(() => {});
+  } catch (_) {}
+
+  // 3) Letzter Fallback: GET via Image (Cache-Buster!)
+  try {
+    const params = new URLSearchParams({ ...payloadObj, cb: String(Date.now()) });
+    const url = WEB_APP_URL + "?" + params.toString();
+    mailPingImg = new Image();
+    mailPingImg.src = url;
+  } catch (_) {}
 }
 
-// ✅ nur EINMAL auslösen (Double-Tap Schutz)
 
 function startQuiz() {
   if (!startNotified) {
@@ -384,11 +397,15 @@ function startQuiz() {
     notifyTeacherTestStarted();
   }
 
-  document.querySelector('.start-screen').style.display = 'none';
-  document.querySelector('.question-screen').style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // ✨ Scrollen verhindern
-  showQuestion();
+  // iOS: Request kurz “atmen lassen”, bevor wir den Screen hart umschalten
+  setTimeout(() => {
+    document.querySelector('.start-screen').style.display = 'none';
+    document.querySelector('.question-screen').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    showQuestion();
+  }, 200);
 }
+
 
 
 
