@@ -341,13 +341,14 @@ function notifyTeacherTestStarted() {
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjZflcxCygbQDkWQHEv1ZpDbTPLzwZV0wA3d21WlAFwpgHyeHWWWZBw5cVUsO1b9HScg/exec";
   const SECRET = "SxhuleeerQuiz_2025_x98d76_22_MEINSECRET";
 
-  const params = new URLSearchParams({
-    secret: SECRET,
-    studentName: "Stefan",
-    eventType: "start",
-    quizTitle: document.title,
-    pageUrl: window.location.href
-  });
+const params = new URLSearchParams({
+  secret: SECRET,
+  studentName: "Stefan",
+  eventType: "start",
+  quizTitle: document.title,
+  pageUrl: window.location.href,
+  cb: String(Date.now()) // ✅ NEU: Cache-Buster für Handys
+});
 
   const url = WEB_APP_URL + "?" + params.toString();
 
@@ -378,15 +379,16 @@ function notifyTeacherTestStarted() {
   } catch (_) {}
 }
 
-
 function startQuiz() {
-setTimeout(notifyTeacherTestStarted, 50); // ✅ Mobile zuverlässiger
+  notifyTeacherTestStarted();                 // ✅ sofort senden
+  setTimeout(notifyTeacherTestStarted, 400);  // ✅ Retry für Mobile/Safari
 
   document.querySelector('.start-screen').style.display = 'none';
   document.querySelector('.question-screen').style.display = 'flex';
   document.body.style.overflow = 'hidden'; // ✨ Scrollen verhindern
   showQuestion();
 }
+
 
 
     function showQuestion() {
