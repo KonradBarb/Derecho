@@ -18,6 +18,12 @@
       touch-action: pan-x;
     }
 
+.scroll-spacer {
+  height: 300px;   /* wenn du willst: 200–400px */
+  width: 100%;
+}
+
+
     img.logo {
       width: 120px;
       margin-top: 20px;
@@ -190,6 +196,7 @@
       text-decoration: none;
       font-size: 1.5em;
     }
+
   </style>
 </head>
 <body>
@@ -217,6 +224,8 @@
       <a href="https://www.jazzupyourgerman.com" target="_blank">🌐</a>
       <a href="https://www.instagram.com/jazzupyourgerman/" target="_blank">📸</a>
     </div>
+<div class="scroll-spacer"></div>
+
   </div>
 <script>
 
@@ -467,6 +476,7 @@ function startQuiz() {
     }
 
 function showResult() {
+document.querySelector('.start-screen').style.display = 'none';
   document.querySelector('.question-screen').style.display = 'none';
 
   const resultScreen = document.querySelector('.result-screen');
