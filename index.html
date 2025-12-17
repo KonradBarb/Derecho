@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KNOWLEDGE_IS_POWER</title>
+  <title>Lückensätze – Wohnen</title>
   <style>
     html, body {
       margin: 0;
@@ -124,14 +124,16 @@
       background-color: #777;
     }
 
-    .result-screen {
-      display: none;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 20px;
-      overflow-y: auto; /* ✨ Scrollen nur auf Auswertungsseite erlauben */
+  .result-screen {
+  display: none;
+  min-height: 100vh;          /* statt height: 100vh */
+  justify-content: flex-start; /* nicht zentrieren, damit man nach unten scrollen kann */
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  padding-bottom: 80px;        /* extra Platz unten, damit Icons sicher sichtbar sind */
+  overflow-y: auto;            /* Scrollen auf Auswertungsseite */
+  -webkit-overflow-scrolling: touch; /* smoother scroll auf iPhone */
     }
 
     .result-screen h2 {
@@ -206,108 +208,155 @@
     </div>
   </div>
 <script>
-const questions = [
-  { "text": "El Derecho Comercial se define como:", "options": ["Conjunto de normas que regulan actos de comercio y a los comerciantes", "Conjunto de leyes civiles", "Reglamento de trabajo", "Normas de derecho penal"], "correct": 0 },
-  { "text": "El objeto principal del Derecho Comercial es:", "options": ["Regular la actividad mercantil", "Proteger al Estado", "Controlar el derecho civil", "Regular contratos familiares"], "correct": 0 },
-  { "text": "Un comerciante es:", "options": ["Quien se dedica profesionalmente a actos de comercio", "Quien compra para uso personal", "Un funcionario público", "Un abogado"], "correct": 0 },
-  { "text": "Los actos de comercio son:", "options": ["Aquellos regulados por el Código de Comercio", "Contratos laborales", "Normas civiles", "Actividades estatales"], "correct": 0 },
-  { "text": "El Código de Comercio regula:", "options": ["Comerciantes, actos de comercio y sociedades mercantiles", "Normas penales", "Derecho constitucional", "Derecho laboral"], "correct": 0 },
-  { "text": "El contrato mercantil se caracteriza por:", "options": ["Rapidez, formalidad menor y carácter lucrativo", "Carácter gratuito", "Solo relaciones familiares", "Normas administrativas"], "correct": 0 },
-  { "text": "La diferencia entre contrato civil y mercantil es:", "options": ["El mercantil tiene fin lucrativo", "El civil es siempre oneroso", "No existe diferencia", "El mercantil no requiere consentimiento"], "correct": 0 },
-  { "text": "El principio de autonomía de la voluntad significa:", "options": ["Libertad de pactar mientras no se contravengan normas imperativas", "Libertad absoluta sin límites", "Imposición de normas estatales", "Solo válido en derecho penal"], "correct": 0 },
-  { "text": "El empresario individual responde:", "options": ["Con todo su patrimonio presente y futuro", "Solo con el capital invertido", "Con un fondo especial", "No responde"], "correct": 0 },
-  { "text": "Una sociedad mercantil es:", "options": ["Contrato por el cual dos o más personas aportan bienes o servicios para realizar una actividad lucrativa", "Un acuerdo informal", "Un sindicato", "Una ONG"], "correct": 0 },
-  { "text": "La sociedad anónima se caracteriza por:", "options": ["Capital dividido en acciones", "Responsabilidad ilimitada", "Existencia de un único socio", "Carácter familiar"], "correct": 0 },
-  { "text": "En la sociedad de responsabilidad limitada:", "options": ["Los socios responden hasta el monto de sus aportaciones", "Los socios responden ilimitadamente", "El capital está dividido en acciones", "No requiere escritura pública"], "correct": 0 },
-  { "text": "El capital social de una sociedad es:", "options": ["Aportaciones iniciales de los socios", "Ganancias anuales", "Créditos bancarios", "Impuestos pagados"], "correct": 0 },
-  { "text": "La disolución de una sociedad ocurre cuando:", "options": ["Se cumple una causa legal o estatutaria", "Un socio no asiste a junta", "La empresa cambia de dirección", "Se reduce la publicidad"], "correct": 0 },
-  { "text": "El concurso de acreedores se aplica a:", "options": ["Situaciones de insolvencia", "Empresas en expansión", "Contratos de seguros", "Contratos de arrendamiento"], "correct": 0 },
-  { "text": "El quiebra o insolvencia implica:", "options": ["Incapacidad del deudor para cumplir sus obligaciones mercantiles", "Un contrato civil", "Exceso de ganancias", "Un despido laboral"], "correct": 0 },
-  { "text": "El pagaré es:", "options": ["Título de crédito que contiene la promesa incondicional de pagar una suma de dinero", "Un contrato de arrendamiento", "Un recibo de pago", "Un documento fiscal"], "correct": 0 },
-  { "text": "La letra de cambio es:", "options": ["Orden incondicional de pago dirigida a un tercero", "Contrato de préstamo", "Documento fiscal", "Factura electrónica"], "correct": 0 },
-  { "text": "El cheque es:", "options": ["Orden de pago librada contra un banco", "Contrato de seguro", "Contrato de trabajo", "Factura"], "correct": 0 },
-  { "text": "Los títulos de crédito se caracterizan por:", "options": ["Incorporar un derecho literal y autónomo", "Ser contratos verbales", "Carecer de valor jurídico", "Usarse solo en civil"], "correct": 0 },
-  { "text": "El endoso es:", "options": ["Forma de transmisión de un título de crédito", "Un contrato de arrendamiento", "Un préstamo bancario", "Un depósito"], "correct": 0 },
-  { "text": "La función del Registro Mercantil es:", "options": ["Dar publicidad a actos y contratos mercantiles", "Recaudar impuestos", "Emitir cheques", "Otorgar créditos"], "correct": 0 },
-  { "text": "La contabilidad mercantil es obligatoria para:", "options": ["Todos los comerciantes", "Solo sociedades anónimas", "Solo trabajadores independientes", "Nadie"], "correct": 0 },
-  { "text": "Los libros de contabilidad incluyen:", "options": ["Libro diario y libro mayor", "Libro de actas civiles", "Registro notarial", "Libro de familia"], "correct": 0 },
-  { "text": "La competencia desleal se refiere a:", "options": ["Prácticas contrarias a la buena fe comercial", "Competencia entre amigos", "Publicidad creativa", "Exportaciones"], "correct": 0 },
-  { "text": "Un contrato de compraventa mercantil se da cuando:", "options": ["La compra se realiza con fines de reventa", "La compra es para uso personal", "La compra es para regalo familiar", "La compra es entre amigos"], "correct": 0 },
-  { "text": "El contrato de comisión mercantil es:", "options": ["Mandato para realizar actos de comercio en nombre ajeno", "Un arrendamiento", "Un préstamo", "Un depósito"], "correct": 0 },
-  { "text": "El contrato de agencia comercial es:", "options": ["Colaboración estable y remunerada entre empresario y agente para promover negocios", "Una sociedad", "Un arrendamiento", "Un seguro"], "correct": 0 },
-  { "text": "El contrato de transporte regula:", "options": ["Traslado de personas o mercancías a cambio de un precio", "Arrendamiento de local", "Cesión de derechos de autor", "Seguros personales"], "correct": 0 },
-  { "text": "El contrato de seguro mercantil cubre:", "options": ["Riesgos a cambio del pago de una prima", "Compra de inmuebles", "Prestación laboral", "Pago de impuestos"], "correct": 0 },
-  { "text": "El contrato de depósito mercantil implica:", "options": ["Guardar bienes ajenos con fines comerciales", "Arrendar un inmueble", "Vender mercancías", "Contratar personal"], "correct": 0 },
-  { "text": "El contrato de franquicia regula:", "options": ["Uso de marca y know-how a cambio de regalías", "Compraventa de bienes", "Préstamo bancario", "Contrato de trabajo"], "correct": 0 },
-  { "text": "El contrato de leasing o arrendamiento financiero es:", "options": ["Cesión temporal de uso de bienes con opción de compra", "Un seguro de vida", "Un depósito bancario", "Un contrato civil"], "correct": 0 },
-  { "text": "La propiedad industrial incluye:", "options": ["Patentes, marcas y diseños industriales", "Bienes inmuebles", "Contratos laborales", "Libros de contabilidad"], "correct": 0 },
-  { "text": "Una patente otorga:", "options": ["Derecho exclusivo de explotación de una invención", "Derecho a revender un producto", "Un contrato de arrendamiento", "Un derecho civil"], "correct": 0 },
-  { "text": "La marca se utiliza para:", "options": ["Distinguir productos o servicios en el mercado", "Registrar un inmueble", "Controlar la contabilidad", "Firmar contratos"], "correct": 0 },
-  { "text": "La competencia perfecta se caracteriza por:", "options": ["Muchos oferentes y demandantes, libre entrada y salida", "Un solo vendedor", "Un monopolio", "Ninguna correcta"], "correct": 0 },
-  { "text": "El monopolio es:", "options": ["Existencia de un único oferente en el mercado", "Muchos oferentes", "Muchos demandantes", "Competencia perfecta"], "correct": 0 },
-  { "text": "El oligopolio es:", "options": ["Pocos oferentes que dominan el mercado", "Un solo comprador", "Un solo oferente", "Competencia perfecta"], "correct": 0 },
-  { "text": "La libre competencia busca:", "options": ["Evitar abusos de mercado y fomentar igualdad de condiciones", "Eliminar empresas", "Reducir ventas", "Monopolizar mercados"], "correct": 0 },
-  { "text": "El arbitraje mercantil es:", "options": ["Medio alternativo de solución de conflictos en comercio", "Un contrato de trabajo", "Un juicio penal", "Un préstamo bancario"], "correct": 0 },
-  { "text": "La mediación mercantil consiste en:", "options": ["Intervención de un tercero neutral para facilitar acuerdos", "Un contrato de compraventa", "Un título de crédito", "Un depósito"], "correct": 0 },
-  { "text": "El laudo arbitral tiene:", "options": ["Valor vinculante similar a una sentencia judicial", "Valor de simple recomendación", "Ningún valor legal", "Valor solo moral"], "correct": 0 },
-  { "text": "La jurisdicción mercantil corresponde a:", "options": ["Juzgados especializados en comercio", "Juzgados laborales", "Tribunales penales", "Juzgados de familia"], "correct": 0 },
-  { "text": "Un contrato de joint venture es:", "options": ["Acuerdo entre empresas para un proyecto común sin perder autonomía", "Una fusión total", "Un arrendamiento", "Un seguro"], "correct": 0 },
-  { "text": "La fusión de sociedades significa:", "options": ["Unión de dos o más sociedades en una sola", "Creación de una sucursal", "Un arrendamiento", "Un contrato de agencia"], "correct": 0 },
-  { "text": "La escisión de sociedades ocurre cuando:", "options": ["Una sociedad se divide en dos o más", "Dos empresas se unen", "Un socio se retira", "La empresa se disuelve"], "correct": 0 },
-  { "text": "La transformación societaria consiste en:", "options": ["Cambio de un tipo de sociedad a otro", "Cambio de domicilio", "Cambio de accionistas", "Cambio de junta directiva"], "correct": 0 },
-  { "text": "Un contrato de factoring implica:", "options": ["Cesión de créditos comerciales a una entidad financiera", "Compraventa de mercancías", "Arrendamiento de locales", "Seguro de vida"], "correct": 0 },
-  { "text": "El contrato de fideicomiso mercantil es:", "options": ["Transmisión de bienes a una fiduciaria para un fin específico", "Un arrendamiento", "Un contrato laboral", "Una compraventa"], "correct": 0 },
-  { "text": "El contrato de corretaje mercantil es:", "options": ["Intermediación entre comprador y vendedor a cambio de comisión", "Un arrendamiento", "Un contrato de seguro", "Un depósito"], "correct": 0 },
-  { "text": "El comerciante individual debe inscribirse en:", "options": ["El Registro Mercantil", "El Registro Civil", "El Registro de la Propiedad", "El Registro Electoral"], "correct": 0 },
-  { "text": "La contabilidad mercantil debe conservarse por:", "options": ["Al menos 6 años", "1 año", "20 años", "Indefinidamente"], "correct": 0 },
-  { "text": "La sociedad colectiva se caracteriza por:", "options": ["Responsabilidad ilimitada y solidaria de los socios", "Capital dividido en acciones", "Un único socio", "Aportaciones en títulos"], "correct": 0 },
-  { "text": "La sociedad comanditaria tiene:", "options": ["Socios colectivos y socios comanditarios", "Solo un socio", "Acciones en bolsa", "Un carácter civil"], "correct": 0 },
-  { "text": "En la sociedad comanditaria simple:", "options": ["Los socios comanditarios responden solo con sus aportes", "Todos responden ilimitadamente", "Se divide en acciones", "Es una ONG"], "correct": 0 },
-  { "text": "La sociedad por acciones simplificada (SAS) se caracteriza por:", "options": ["Flexibilidad y constitución más ágil", "Responsabilidad ilimitada", "Un único socio siempre", "Carácter civil"], "correct": 0 },
-  { "text": "Un contrato mercantil requiere:", "options": ["Consentimiento, objeto y causa lícita", "Solo consentimiento", "Autorización estatal", "Firma de un juez"], "correct": 0 },
-  { "text": "El principio de buena fe en derecho mercantil implica:", "options": ["Cumplir los contratos con honestidad y lealtad", "Maximizar utilidades", "Evitar impuestos", "Reducir costos"], "correct": 0 },
-  { "text": "El contrato de suministro regula:", "options": ["Entrega periódica de bienes o servicios a cambio de un precio", "Un seguro", "Un arrendamiento", "Una donación"], "correct": 0 },
-  { "text": "El contrato de sociedad mercantil tiene como finalidad:", "options": ["Realizar actos de comercio y repartirse utilidades", "Prestar servicios civiles", "Formar un sindicato", "Gestionar bienes inmuebles"], "correct": 0 },
-  { "text": "La aportación de los socios puede ser:", "options": ["Dinero, bienes o industria", "Solo dinero", "Solo bienes muebles", "Solo trabajo"], "correct": 0 },
-  { "text": "El objeto social de una sociedad define:", "options": ["Actividades comerciales que realizará la sociedad", "Nombre de la sociedad", "Capital social", "Número de socios"], "correct": 0 },
-  { "text": "La sociedad en comandita por acciones combina:", "options": ["Socios colectivos con responsabilidad ilimitada y socios comanditarios con acciones", "Responsabilidad limitada para todos los socios", "Un único socio gestor", "Capital dividido en cuotas de propiedad indivisible"], "correct": 0 },
-  { "text": "La liquidación de una sociedad ocurre:", "options": ["Tras la disolución para pagar pasivos y repartir remanentes", "Al inicio de la sociedad", "Durante la fusión", "Solo en la transformación societaria"], "correct": 0 },
-  { "text": "El contrato de compraventa mercantil se perfecciona con:", "options": ["Consentimiento entre las partes y entrega de la cosa", "Firma de notario", "Registro civil", "Autorización del Estado"], "correct": 0 },
-  { "text": "El contrato de arrendamiento mercantil regula:", "options": ["Uso temporal de bienes para actividades comerciales", "Arrendamiento de vivienda", "Préstamo de dinero", "Fideicomiso"], "correct": 0 },
-  { "text": "El contrato de transporte terrestre se rige por:", "options": ["Normas mercantiles y especiales de transporte", "Código civil únicamente", "Normas laborales", "Código penal"], "correct": 0 },
-  { "text": "El contrato de transporte marítimo incluye:", "options": ["Embarque de mercancías por vía marítima y responsabilidades del transportista", "Solo transporte de pasajeros", "Arrendamiento de barcos", "Seguros personales"], "correct": 0 },
-  { "text": "El contrato de transporte aéreo regula:", "options": ["Transporte de personas o carga por avión", "Solo carga marítima", "Arrendamiento de aviones", "Seguros de vida"], "correct": 0 },
-  { "text": "El contrato de seguro mercantil protege:", "options": ["Riesgos patrimoniales del asegurado", "Solo bienes muebles", "Propiedades estatales", "Clientes de un comercio"], "correct": 0 },
-  { "text": "El contrato de reaseguro implica:", "options": ["Aseguradora que transfiere parte de riesgos a otra aseguradora", "Arrendamiento de locales", "Compraventa de mercancías", "Contrato laboral"], "correct": 0 },
-  { "text": "La letra de cambio se distingue por:", "options": ["Tres partes: librador, librado y beneficiario", "Solo una parte", "Es verbal", "Carece de valor legal"], "correct": 0 },
-  { "text": "El cheque bancario es:", "options": ["Orden de pago a cargo de un banco", "Un contrato de seguro", "Un contrato civil", "Documento contable interno"], "correct": 0 },
-  { "text": "El pagaré puede ser:", "options": ["A la orden, nominativo o al portador", "Solo nominativo", "Solo al portador", "No es título de crédito"], "correct": 0 },
-  { "text": "La responsabilidad civil del comerciante implica:", "options": ["Responder por daños causados en actos de comercio", "Solo obligaciones fiscales", "Solo responsabilidad penal", "Ninguna"], "correct": 0 },
-  { "text": "La responsabilidad penal del comerciante se da cuando:", "options": ["Comete delitos relacionados con actos mercantiles", "No paga impuestos", "No registra contabilidad", "Se retira de la sociedad"], "correct": 0 },
-  { "text": "El aval en un título de crédito significa:", "options": ["Garantía de pago por un tercero", "Préstamo bancario", "Seguro de mercancías", "Contrato de agencia"], "correct": 0 },
-  { "text": "El endoso en títulos de crédito permite:", "options": ["Transferir derechos a otra persona", "Obligar al banco a pagar intereses", "Registrar contabilidad", "Cambiar el capital social"], "correct": 0 },
-  { "text": "El protesto de un título de crédito ocurre cuando:", "options": ["No se paga o acepta el título", "Se entrega a tiempo", "Se registra contablemente", "Se vende a terceros"], "correct": 0 },
-  { "text": "El contrato de factoring permite:", "options": ["Cobro anticipado de cuentas por cobrar mediante cesión a una entidad financiera", "Arrendamiento de locales", "Contratos de seguro", "Compra de acciones"], "correct": 0 },
-  { "text": "El contrato de leasing es:", "options": ["Arrendamiento financiero con opción de compra", "Compraventa mercantil", "Seguro de mercancías", "Contrato laboral"], "correct": 0 },
-  { "text": "El contrato de franquicia comercial se basa en:", "options": ["Uso de marca, know-how y asistencia a cambio de regalías", "Solo compraventa de mercancías", "Arrendamiento de inmuebles", "Seguro mercantil"], "correct": 0 },
-  { "text": "El contrato de joint venture tiene como característica:", "options": ["Colaboración entre empresas para proyecto común sin perder autonomía", "Fusión completa", "Contrato laboral", "Arrendamiento financiero"], "correct": 0 },
-  { "text": "La competencia desleal incluye:", "options": ["Actos contrarios a la buena fe comercial que causan daño a terceros", "Publicidad creativa", "Contratos legales", "Arrendamientos"], "correct": 0 },
-  { "text": "La franquicia puede ser:", "options": ["De producto, de negocio o de distribución", "Solo de producto", "Solo de marca", "Solo de servicios"], "correct": 0 },
-  { "text": "La sociedad de hecho se caracteriza por:", "options": ["No requiere escritura pública pero tiene actividad mercantil conjunta", "Capital dividido en acciones", "Responsabilidad limitada", "Carácter civil"], "correct": 0 },
-  { "text": "El registro mercantil tiene como función principal:", "options": ["Dar publicidad legal a actos, sociedades y comerciantes", "Registrar propiedades inmobiliarias", "Emitir facturas", "Cobrar impuestos"], "correct": 0 },
-  { "text": "El libro diario se utiliza para:", "options": ["Registrar cronológicamente todas las operaciones mercantiles", "Registrar solo ingresos", "Registrar impuestos", "Registrar socios"], "correct": 0 }
-];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const questions =
+
+
+[
+  {
+    "text": "Ich ___ fotografiert.",
+    "options": ["bin", "werde", "habe", "wurde"],
+    "correct": 1
+  },
+  {
+    "text": "Das Lied ___ von Madonna gesungen.",
+    "options": ["ist", "wird", "hat", "war"],
+    "correct": 1
+  },
+  {
+    "text": "Zwecks ___ gehe ich ins Gym.",
+    "options": ["fit", "Fitness", "sportlich", "fit zu sein"],
+    "correct": 1
+  },
+  {
+    "text": "Ich gehe ins Gym, um ___ zu sein.",
+    "options": ["Glück", "glücklich sein", "glückliche", "glücklich"],
+    "correct": 3
+  },
+  {
+    "text": "Ich bin wütend ___ dich.",
+    "options": ["gegen", "auf", "mit", "für"],
+    "correct": 1
+  },
+  {
+    "text": "Ich habe ___ Hunger ___ Durst.",
+    "options": ["sowohl / als auch", "entweder / oder", "weder / noch", "zwar / aber"],
+    "correct": 2
+  },
+  {
+    "text": "Ich mag ___ Kaffee ___ Tee.",
+    "options": ["weder / noch", "sowohl / als auch", "zwar / aber", "entweder / aber"],
+    "correct": 1
+  },
+  {
+    "text": "Heute Abend gehe ich ___ ins Kino ___ in die Schwimmhalle.",
+    "options": ["sowohl / als auch", "zwar / aber", "entweder / oder", "weder / noch"],
+    "correct": 2
+  },
+  {
+    "text": "Ich habe ___ schon Alkohol getrunken, ___ nie Heroin konsumiert.",
+    "options": ["weder / noch", "zwar / aber", "sowohl / als auch", "entweder / oder"],
+    "correct": 1
+  },
+  {
+    "text": "Ich bin sehr ___, die Prüfung ist vorbei.",
+    "options": ["verwirrend", "wütend", "erleichtert", "einsam"],
+    "correct": 2
+  },
+  {
+    "text": "Er lebt ___, aber er ist nicht ___.",
+    "options": ["einsam / allein", "allein / einsam", "allein / allein", "einsam / einsam"],
+    "correct": 1
+  },
+  {
+    "text": "Ich ___ meine Entscheidung.",
+    "options": ["hoffe", "zweifle", "bereue", "beende"],
+    "correct": 2
+  },
+  {
+    "text": "Darf ich dich ___ ein Brot bitten?",
+    "options": ["für", "mit", "um", "auf"],
+    "correct": 2
+  },
+  {
+    "text": "___ ich ein Brot bekommen?",
+    "options": ["Darf", "Dürfte", "Muss", "Kann"],
+    "correct": 1
+  },
+  {
+    "text": "Das ist jetzt ___ mir.",
+    "options": ["vor", "über", "zwischen", "hinter"],
+    "correct": 3
+  }
+]
+
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     let currentQuestion = 0;
     let score = 0;
     let incorrectAnswers = [];
     let userAnswers = [];
 
-    function startQuiz() {
-      document.querySelector('.start-screen').style.display = 'none';
-      document.querySelector('.question-screen').style.display = 'flex';
-      document.body.style.overflow = 'hidden'; // ✨ Scrollen verhindern
-      showQuestion();
-    }
+function notifyTeacherTestStarted() {
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjZflcxCygbQDkWQHEv1ZpDbTPLzwZV0wA3d21WlAFwpgHyeHWWWZBw5cVUsO1b9HScg/exec";
+  const SECRET = "SxhuleeerQuiz_2025_x98d76_22_MEINSECRET";
+
+  const params = new URLSearchParams({
+    secret: SECRET,
+    studentName: "Olena",
+    eventType: "start",
+    quizTitle: document.title,
+    pageUrl: window.location.href
+  });
+
+  const img = new Image();
+  img.src = WEB_APP_URL + "?" + params.toString();
+}
+
+function startQuiz() {
+  notifyTeacherTestStarted(); // ✅ Mail-Trigger
+
+  document.querySelector('.start-screen').style.display = 'none';
+  document.querySelector('.question-screen').style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // ✨ Scrollen verhindern
+  showQuestion();
+}
+
 
     function showQuestion() {
       const container = document.getElementById('question-container');
