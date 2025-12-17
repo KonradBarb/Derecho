@@ -5,197 +5,203 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lückensätze – Wohnen</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-      height: 100vh;
-      overflow: hidden;
-      overscroll-behavior: none;
-      touch-action: pan-x;
-    }
-
-.scroll-spacer {
-  height: 300px;   /* wenn du willst: 200–400px */
-  width: 100%;
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  height: 100vh;
+  overflow: hidden;            /* Standard: kein Scroll */
+  overscroll-behavior: none;
+  touch-action: pan-x;
 }
 
+img.logo {
+  width: 120px;
+  margin-top: 20px;
+}
 
-    img.logo {
-      width: 120px;
-      margin-top: 20px;
-    }
+.start-screen, .question-screen, .result-screen {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
 
-    .start-screen, .question-screen, .result-screen {
-      display: none;
-      height: 100vh; 
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 20px;
-    }
+.start-screen {
+  display: flex;
+}
 
-    .start-screen {
-      display: flex;
-    }
+.start-screen h1 {
+  color: white;
+  font-size: 1.8em;
+  margin: 20px 0;
+}
 
-    .start-screen h1 {
-      color: white;
-      font-size: 1.8em;
-      margin: 20px 0;
-    }
+.start-button {
+  padding: 12px 24px;
+  font-size: 1em;
+  background-color: #e63946;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-    .start-button {
-      padding: 12px 24px;
-      font-size: 1em;
-      background-color: #e63946;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+.start-button:hover {
+  background-color: #c62828;
+}
 
-    .start-button:hover {
-      background-color: #c62828;
-    }
+.question-screen {
+  display: flex;
+  position: relative;
+}
 
-    .question-screen {
-      display: flex;
-      position: relative;
-    }
+.question {
+  margin-bottom: 30px;
+}
 
-    .question {
-      margin-bottom: 30px;
-    }
+.question p {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
 
-    .question p {
-      font-size: 1.2em;
-      margin-bottom: 15px;
-    }
+#progress-text {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 1em;
+}
 
-    #progress-text {
-      margin-bottom: 10px;
-      font-weight: bold;
-      font-size: 1em;
-    }
+.answers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  margin: 0 auto 20px auto;
+}
 
-    .answers {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 300px;
-      margin: 0 auto 20px auto;
-    }
+.answers button {
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
 
-    .answers button {
-      padding: 10px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-    }
+.answers button:hover {
+  background-color: #0056b3;
+}
 
-    .answers button:hover {
-      background-color: #0056b3;
-    }
+.answers button:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
 
-    .answers button:disabled {
-      cursor: default;
-      opacity: 0.8;
-    }
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  margin: 0 auto;
+}
 
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      width: 300px;
-      margin: 0 auto;
-    }
+.nav-buttons button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  background-color: #555;
+  color: white;
+  cursor: pointer;
+}
 
-    .nav-buttons button {
-      padding: 10px 20px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      background-color: #555;
-      color: white;
-      cursor: pointer;
-    }
+.nav-buttons button:hover {
+  background-color: #777;
+}
 
-    .nav-buttons button:hover {
-      background-color: #777;
-    }
+/* ---------------- RESULT-SEITE: NEU ---------------- */
 
+/* Result-Screen ist standardmäßig aus */
 .result-screen {
   display: none;
-  position: fixed;
-  inset: 0;                    /* ganzer Bildschirm */
+}
+
+/* ✅ Nur wenn Result offen ist: BODY darf scrollen */
+body.results-open {
+  height: auto;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: auto;
+}
+
+/* ✅ Result-Screen wird normal (kein fixed!) */
+body.results-open .result-screen {
+  display: flex !important;
+  position: static !important;
+  min-height: 100vh;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   padding: 20px;
-  padding-bottom: 140px;
+  padding-bottom: 220px; /* Platz unter Button + Icons */
 }
 
-/* 👇 NUR für die Resultatsseite */
-.result-screen.is-visible {
-  display: flex;
- height: 100vh; 
-  overflow-y: auto;            /* echte Scroll-Fläche */
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;         /* vertikal scrollen erlauben */
- overscroll-behavior: contain;
+/* ✅ Extra „Luft“ ganz unten (nur Result) */
+body.results-open .result-screen::after {
+  content: "";
+  display: block;
+  height: 500px; /* viel Platz zum “durchziehen” */
 }
 
+.result-screen h2 {
+  font-size: 1.5em;
+}
 
+.result-screen p {
+  margin-top: 10px;
+  font-size: 1em;
+}
 
-    .result-screen h2 {
-      font-size: 1.5em;
-    }
+.corrections {
+  text-align: left;
+  max-width: 500px;
+  margin: 20px auto;
+  font-size: 0.95em;
+}
 
-    .result-screen p {
-      margin-top: 10px;
-      font-size: 1em;
-    }
+.corrections p {
+  margin: 8px 0;
+}
 
-    .corrections {
-      text-align: left;
-      max-width: 500px;
-      margin: 20px auto;
-      font-size: 0.95em;
-    }
+.progress-bar {
+  height: 10px;
+  background: #444;
+  margin-top: 10px;
+  width: 100%;
+}
 
-    .corrections p {
-      margin: 8px 0;
-    }
+.progress {
+  height: 10px;
+  background: green;
+  width: 0%;
+}
 
-    .progress-bar {
-      height: 10px;
-      background: #444;
-      margin-top: 10px;
-      width: 100%;
-    }
+.social-icons {
+  margin-top: 20px;
+}
 
-    .progress {
-      height: 10px;
-      background: green;
-      width: 0%;
-    }
-
-    .social-icons {
-      margin-top: 20px;
-    }
-
-    .social-icons a {
-      margin: 0 10px;
-      color: white;
-      text-decoration: none;
-      font-size: 1.5em;
-    }
+.social-icons a {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 1.5em;
+}
 
   </style>
 </head>
@@ -476,15 +482,21 @@ function startQuiz() {
     }
 
 function showResult() {
+  // andere Screens aus
   document.querySelector('.start-screen').style.display = 'none';
   document.querySelector('.question-screen').style.display = 'none';
 
+  // ✅ Result-Layout aktivieren (BODY darf scrollen)
+  document.body.classList.add('results-open');
+
+  // ✅ Result-Screen einblenden (CSS übernimmt Rest)
   const resultScreen = document.querySelector('.result-screen');
-  resultScreen.classList.add('is-visible');
-  resultScreen.scrollTop = 0;
+  resultScreen.style.display = 'flex';
 
-  document.body.style.overflow = 'hidden';
+  // ✅ ganz nach oben (iOS)
+  window.scrollTo(0, 0);
 
+  // Score + Korrekturen
   const scoreText = document.getElementById('score-text');
   scoreText.textContent = `Du hast ${score} von ${questions.length} richtig.`;
 
@@ -501,20 +513,26 @@ function showResult() {
 }
 
 
-    function restartQuiz() {
-      currentQuestion = 0;
-      score = 0;
-      incorrectAnswers = [];
-      userAnswers = [];
+function restartQuiz() {
+  currentQuestion = 0;
+  score = 0;
+  incorrectAnswers = [];
+  userAnswers = [];
 
-const resultScreen = document.querySelector('.result-screen');
-resultScreen.classList.remove('is-visible');
-resultScreen.style.display = 'none'; 
-resultScreen.scrollTop = 0;
+  // ✅ Results-Modus beenden → Scroll wieder gesperrt
+  document.body.classList.remove('results-open');
 
-document.querySelector('.start-screen').style.display = 'flex';
-document.querySelector('.question-screen').style.display = 'none';
-document.body.style.overflow = 'hidden';
+  // Result-Screen ausblenden
+  const resultScreen = document.querySelector('.result-screen');
+  resultScreen.style.display = 'none';
+
+  // Start-Screen wieder anzeigen
+  document.querySelector('.start-screen').style.display = 'flex';
+  document.querySelector('.question-screen').style.display = 'none';
+
+  // sicherheitshalber ganz nach oben
+  window.scrollTo(0, 0);
+}
 
 
     }
