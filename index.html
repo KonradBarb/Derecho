@@ -334,54 +334,70 @@ const questions =
     let score = 0;
     let incorrectAnswers = [];
     let userAnswers = [];
-let mailPingImg = null;
+let mailPingImg = null;   // ✅ hinzufügen
+let mailPingFrame = null;
+let startEventId = null;
+
 
 
 function notifyTeacherTestStarted() {
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjZflcxCygbQDkWQHEv1ZpDbTPLzwZV0wA3d21WlAFwpgHyeHWWWZBw5cVUsO1b9HScg/exec";
   const SECRET = "SxhuleeerQuiz_2025_x98d76_22_MEINSECRET";
 
-const params = new URLSearchParams({
-  secret: SECRET,
-  studentName: "Stefan",
-  eventType: "start",
-  quizTitle: document.title,
-  pageUrl: window.location.href,
-  cb: String(Date.now()) // ✅ NEU: Cache-Buster für Handys
-});
+  // ✅ pro Start genau eine ID (wichtig für Duplikat-Sperre im Backend)
+  if (!startEventId) {
+startEventId = (window.crypto && window.crypto.randomUUID)
+  ? window.crypto.randomUUID()
+  : (Date.now() + "_" + Math.random());
+  }
+
+  const params = new URLSearchParams({
+    secret: SECRET,
+    studentName: "Stefan",
+    eventType: "start",
+    quizTitle: document.title,
+    pageUrl: window.location.href,
+    eventId: String(startEventId),
+    cb: String(Date.now()) // Cache-Buster
+  });
 
   const url = WEB_APP_URL + "?" + params.toString();
 
-  // ✅ Wichtig für iOS/Handy: global speichern, sonst wird der Request oft abgebrochen
+  // ✅ 1) Image-Ping (schnell)
   mailPingImg = new Image();
   mailPingImg.src = url;
 
-  // ✅ Fallback (zusätzliche Chance, falls Image-Ping blockiert wird)
+  // ✅ 2) iOS-sicherer: Hidden-iframe (sehr zuverlässig)
+  mailPingFrame = document.createElement("iframe");
+  mailPingFrame.style.display = "none";
+  mailPingFrame.src = url;
+  document.body.appendChild(mailPingFrame);
+  setTimeout(() => {
+    if (mailPingFrame && mailPingFrame.parentNode) mailPingFrame.parentNode.removeChild(mailPingFrame);
+    mailPingFrame = null;
+  }, 2000);
+
+  // ✅ 3) Zusatz-Fallback (kann helfen, wird aber serverseitig dedupliziert)
   try {
     const payload = JSON.stringify({
       secret: SECRET,
       studentName: "Stefan",
       eventType: "start",
       quizTitle: document.title,
-      pageUrl: window.location.href
+      pageUrl: window.location.href,
+      eventId: String(startEventId)
     });
 
     if (navigator.sendBeacon) {
       navigator.sendBeacon(WEB_APP_URL, new Blob([payload], { type: "application/json" }));
-    } else {
-      fetch(WEB_APP_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: payload,
-        keepalive: true
-      }).catch(() => {});
     }
   } catch (_) {}
 }
 
+
+
 function startQuiz() {
-  notifyTeacherTestStarted();                 // ✅ sofort senden
-  setTimeout(notifyTeacherTestStarted, 400);  // ✅ Retry für Mobile/Safari
+notifyTeacherTestStarted();
 
   document.querySelector('.start-screen').style.display = 'none';
   document.querySelector('.question-screen').style.display = 'flex';
