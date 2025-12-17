@@ -476,11 +476,10 @@ function startQuiz() {
     }
 
 function showResult() {
-document.querySelector('.start-screen').style.display = 'none';
+  document.querySelector('.start-screen').style.display = 'none';
   document.querySelector('.question-screen').style.display = 'none';
 
   const resultScreen = document.querySelector('.result-screen');
-resultScreen.style.display = 'flex';   
   resultScreen.classList.add('is-visible');
   resultScreen.scrollTop = 0;
 
