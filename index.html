@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lückensätze – Wohnen</title>
-
   <style>
     html, body {
       margin: 0;
@@ -14,10 +13,16 @@
       color: #fff;
       text-align: center;
       height: 100vh;
-      overflow: hidden;            /* ✅ Standard: kein Scroll */
+      overflow: hidden;
       overscroll-behavior: none;
-      touch-action: pan-x;         /* ✅ Quiz: links/rechts swipen */
+      touch-action: pan-x;
     }
+
+.scroll-spacer {
+  height: 300px;   /* wenn du willst: 200–400px */
+  width: 100%;
+}
+
 
     img.logo {
       width: 120px;
@@ -26,15 +31,16 @@
 
     .start-screen, .question-screen, .result-screen {
       display: none;
-      height: 100vh;
+      height: 100vh; 
       justify-content: center;
       align-items: center;
       flex-direction: column;
       padding: 20px;
-      box-sizing: border-box;
     }
 
-    .start-screen { display: flex; }
+    .start-screen {
+      display: flex;
+    }
 
     .start-screen h1 {
       color: white;
@@ -52,14 +58,18 @@
       cursor: pointer;
     }
 
-    .start-button:hover { background-color: #c62828; }
+    .start-button:hover {
+      background-color: #c62828;
+    }
 
     .question-screen {
       display: flex;
       position: relative;
     }
 
-    .question { margin-bottom: 30px; }
+    .question {
+      margin-bottom: 30px;
+    }
 
     .question p {
       font-size: 1.2em;
@@ -90,7 +100,9 @@
       cursor: pointer;
     }
 
-    .answers button:hover { background-color: #0056b3; }
+    .answers button:hover {
+      background-color: #0056b3;
+    }
 
     .answers button:disabled {
       cursor: default;
@@ -114,23 +126,36 @@
       cursor: pointer;
     }
 
-    .nav-buttons button:hover { background-color: #777; }
-
-    /* ✅ RESULT-SEITE: nur hier Scroll erlauben */
-    .result-screen {
-      position: fixed;
-      inset: 0;
-      display: none;                 /* wird per JS auf flex gesetzt */
-      overflow-y: auto;              /* ✅ DER Scroll */
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-      touch-action: pan-y;           /* ✅ vertikal scrollen */
-      justify-content: flex-start;
-      align-items: center;
-      padding-bottom: 0;
+    .nav-buttons button:hover {
+      background-color: #777;
     }
 
-    .result-screen h2 { font-size: 1.5em; }
+.result-screen {
+  display: none;
+  position: fixed;
+  inset: 0;                    /* ganzer Bildschirm */
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  padding-bottom: 140px;
+}
+
+/* 👇 NUR für die Resultatsseite */
+.result-screen.is-visible {
+  display: flex;
+ height: 100vh; 
+  overflow-y: auto;            /* echte Scroll-Fläche */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;         /* vertikal scrollen erlauben */
+ overscroll-behavior: contain;
+}
+
+
+
+    .result-screen h2 {
+      font-size: 1.5em;
+    }
 
     .result-screen p {
       margin-top: 10px;
@@ -142,11 +167,11 @@
       max-width: 500px;
       margin: 20px auto;
       font-size: 0.95em;
-      width: 100%;
-      box-sizing: border-box;
     }
 
-    .corrections p { margin: 8px 0; }
+    .corrections p {
+      margin: 8px 0;
+    }
 
     .progress-bar {
       height: 10px;
@@ -161,7 +186,9 @@
       width: 0%;
     }
 
-    .social-icons { margin-top: 20px; }
+    .social-icons {
+      margin-top: 20px;
+    }
 
     .social-icons a {
       margin: 0 10px;
@@ -170,14 +197,8 @@
       font-size: 1.5em;
     }
 
-    /* ✅ “Extra Platz” ganz unten, damit man über Icons hinaus scrollen kann */
-    .result-bottom-space {
-      height: 520px;      /* wenn du willst: 300–900px */
-      width: 100%;
-    }
   </style>
 </head>
-
 <body>
   <div class="start-screen">
     <img src="logoo.png" alt="Logo" class="logo">
@@ -198,61 +219,203 @@
   <div class="result-screen">
     <h2 id="score-text"></h2>
     <div class="corrections" id="correction-list"></div>
-
     <button class="start-button" onclick="restartQuiz()">Nochmal spielen</button>
-
     <div class="social-icons">
       <a href="https://www.jazzupyourgerman.com" target="_blank">🌐</a>
       <a href="https://www.instagram.com/jazzupyourgerman/" target="_blank">📸</a>
     </div>
+<div class="scroll-spacer"></div>
 
-    <!-- ✅ “Fake Content” unter den Icons (damit man weiter scrollen kann) -->
-    <img src="logoo.png" alt="" style="margin-top:40px; opacity:0.4; width:120px;">
-    <p style="margin-top:20px; opacity:0.4;">Danke fürs Spielen 🙌</p>
-
-    <!-- ✅ Richtig viel Platz -->
-    <div class="result-bottom-space"></div>
   </div>
+<script>
 
-  <script>
-    const questions = [
-      {"text":"Ich ___ fotografiert.","options":["bin","werde","habe","wurde"],"correct":1},
-      {"text":"Das Lied ___ von Madonna gesungen.","options":["ist","wird","hat","war"],"correct":1},
-      {"text":"Zwecks ___ gehe ich ins Gym.","options":["fit","Fitness","sportlich","fit zu sein"],"correct":1},
-      {"text":"Ich gehe ins Gym, um ___ zu sein.","options":["Glück","glücklich sein","glückliche","glücklich"],"correct":3},
-      {"text":"Ich bin wütend ___ dich.","options":["gegen","auf","mit","für"],"correct":1},
-      {"text":"Ich habe ___ Hunger ___ Durst.","options":["sowohl / als auch","entweder / oder","weder / noch","zwar / aber"],"correct":2},
-      {"text":"Ich mag ___ Kaffee ___ Tee.","options":["weder / noch","sowohl / als auch","zwar / aber","entweder / aber"],"correct":1},
-      {"text":"Heute Abend gehe ich ___ ins Kino ___ in die Schwimmhalle.","options":["sowohl / als auch","zwar / aber","entweder / oder","weder / noch"],"correct":2},
-      {"text":"Ich habe ___ schon Alkohol getrunken, ___ nie Heroin konsumiert.","options":["weder / noch","zwar / aber","sowohl / als auch","entweder / oder"],"correct":1},
-      {"text":"Ich bin sehr ___, die Prüfung ist vorbei.","options":["verwirrend","wütend","erleichtert","einsam"],"correct":2},
-      {"text":"Er lebt ___, aber er ist nicht ___.","options":["einsam / allein","allein / einsam","allein / allein","einsam / einsam"],"correct":1},
-      {"text":"Ich ___ meine Entscheidung.","options":["hoffe","zweifle","bereue","beende"],"correct":2},
-      {"text":"Darf ich dich ___ ein Brot bitten?","options":["für","mit","um","auf"],"correct":2},
-      {"text":"___ ich ein Brot bekommen?","options":["Darf","Dürfte","Muss","Kann"],"correct":1},
-      {"text":"Das ist jetzt ___ mir.","options":["vor","über","zwischen","hinter"],"correct":3}
-    ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const questions =
+
+
+[
+  {
+    "text": "Ich ___ fotografiert.",
+    "options": ["bin", "werde", "habe", "wurde"],
+    "correct": 1
+  },
+  {
+    "text": "Das Lied ___ von Madonna gesungen.",
+    "options": ["ist", "wird", "hat", "war"],
+    "correct": 1
+  },
+  {
+    "text": "Zwecks ___ gehe ich ins Gym.",
+    "options": ["fit", "Fitness", "sportlich", "fit zu sein"],
+    "correct": 1
+  },
+  {
+    "text": "Ich gehe ins Gym, um ___ zu sein.",
+    "options": ["Glück", "glücklich sein", "glückliche", "glücklich"],
+    "correct": 3
+  },
+  {
+    "text": "Ich bin wütend ___ dich.",
+    "options": ["gegen", "auf", "mit", "für"],
+    "correct": 1
+  },
+  {
+    "text": "Ich habe ___ Hunger ___ Durst.",
+    "options": ["sowohl / als auch", "entweder / oder", "weder / noch", "zwar / aber"],
+    "correct": 2
+  },
+  {
+    "text": "Ich mag ___ Kaffee ___ Tee.",
+    "options": ["weder / noch", "sowohl / als auch", "zwar / aber", "entweder / aber"],
+    "correct": 1
+  },
+  {
+    "text": "Heute Abend gehe ich ___ ins Kino ___ in die Schwimmhalle.",
+    "options": ["sowohl / als auch", "zwar / aber", "entweder / oder", "weder / noch"],
+    "correct": 2
+  },
+  {
+    "text": "Ich habe ___ schon Alkohol getrunken, ___ nie Heroin konsumiert.",
+    "options": ["weder / noch", "zwar / aber", "sowohl / als auch", "entweder / oder"],
+    "correct": 1
+  },
+  {
+    "text": "Ich bin sehr ___, die Prüfung ist vorbei.",
+    "options": ["verwirrend", "wütend", "erleichtert", "einsam"],
+    "correct": 2
+  },
+  {
+    "text": "Er lebt ___, aber er ist nicht ___.",
+    "options": ["einsam / allein", "allein / einsam", "allein / allein", "einsam / einsam"],
+    "correct": 1
+  },
+  {
+    "text": "Ich ___ meine Entscheidung.",
+    "options": ["hoffe", "zweifle", "bereue", "beende"],
+    "correct": 2
+  },
+  {
+    "text": "Darf ich dich ___ ein Brot bitten?",
+    "options": ["für", "mit", "um", "auf"],
+    "correct": 2
+  },
+  {
+    "text": "___ ich ein Brot bekommen?",
+    "options": ["Darf", "Dürfte", "Muss", "Kann"],
+    "correct": 1
+  },
+  {
+    "text": "Das ist jetzt ___ mir.",
+    "options": ["vor", "über", "zwischen", "hinter"],
+    "correct": 3
+  }
+]
+
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     let currentQuestion = 0;
     let score = 0;
+    let incorrectAnswers = [];
     let userAnswers = [];
 
-    function startQuiz() {
-      document.querySelector('.start-screen').style.display = 'none';
-      document.querySelector('.question-screen').style.display = 'flex';
-      showQuestion();
-    }
+
+
+let mailPingImg = null;
+let startEventId = null;
+let startNotified = false;
+
+function notifyTeacherTestStarted() {
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyLqhiCn9pVFlInvh3wpgDbM77Y15511_NHQVvm71OjoieU2Vs7JL8BBEjcJT2h3GJ7Og/exec";
+  const SECRET = "SxhuleeerQuiz_2025_x98d76_22_MEINSECRET";
+
+  // ✅ pro Start genau eine Event-ID
+  if (!startEventId) {
+    startEventId =
+      (window.crypto && window.crypto.randomUUID)
+        ? window.crypto.randomUUID()
+        : Date.now() + "_" + Math.random();
+  }
+
+  const params = new URLSearchParams({
+    secret: SECRET,
+    studentName: "Stefan",
+    eventType: "start",
+    quizTitle: document.title,
+    pageUrl: window.location.href,
+    eventId: startEventId,
+    cb: Date.now() // ✅ Cache-Buster (wichtig für iOS)
+  });
+
+  const url = WEB_APP_URL + "?" + params.toString();
+
+  // ✅ EINZIGER & ZUVERLÄSSIGER WEG FÜR iPHONE
+  mailPingImg = new Image();
+  mailPingImg.src = url;
+}
+
+
+
+function startQuiz() {
+  if (!startNotified) {
+    startNotified = true;
+    notifyTeacherTestStarted();
+  }
+
+  // iOS: Request kurz “atmen lassen”, bevor wir den Screen hart umschalten
+  setTimeout(() => {
+    document.querySelector('.start-screen').style.display = 'none';
+    document.querySelector('.question-screen').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    showQuestion();
+  }, 200);
+}
+
+
+
 
     function showQuestion() {
       const container = document.getElementById('question-container');
       const progressText = document.getElementById('progress-text');
       const progressBar = document.getElementById('progress-bar');
-
       container.innerHTML = '';
 
       const q = questions[currentQuestion];
       progressText.textContent = `Frage ${currentQuestion + 1} von ${questions.length}`;
-      progressBar.style.width = `${(currentQuestion / questions.length) * 100}%`;
+      progressBar.style.width = `${((currentQuestion) / questions.length) * 100}%`;
 
       const questionText = document.createElement('p');
       questionText.textContent = q.text;
@@ -277,19 +440,30 @@
 
       buttons.forEach((btn, idx) => {
         btn.disabled = true;
-        if (idx === q.correct) btn.style.backgroundColor = 'green';
-        else if (btn === clickedButton) btn.style.backgroundColor = 'red';
+        if (idx === q.correct) {
+          btn.style.backgroundColor = 'green';
+        } else if (btn === clickedButton) {
+          btn.style.backgroundColor = 'red';
+        } else {
+          btn.style.backgroundColor = '#007bff';
+        }
       });
 
       userAnswers[currentQuestion] = index;
-      if (index === q.correct) score++;
+
+      if (index === q.correct) {
+        score++;
+      } else {
+        incorrectAnswers.push({ question: q.text, correctAnswer: q.options[q.correct] });
+      }
     }
 
     function nextQuestion() {
       if (currentQuestion < questions.length - 1) {
         currentQuestion++;
         showQuestion();
-      } else {
+      } else if (currentQuestion === questions.length - 1) {
+        currentQuestion++;
         showResult();
       }
     }
@@ -301,39 +475,51 @@
       }
     }
 
-    function showResult() {
-      document.querySelector('.question-screen').style.display = 'none';
+function showResult() {
+  document.querySelector('.start-screen').style.display = 'none';
+  document.querySelector('.question-screen').style.display = 'none';
 
-      const resultScreen = document.querySelector('.result-screen');
-      resultScreen.style.display = 'flex';
-      resultScreen.scrollTop = 0; // ✅ nach oben
+  const resultScreen = document.querySelector('.result-screen');
+  resultScreen.classList.add('is-visible');
+  resultScreen.scrollTop = 0;
 
-      document.getElementById('score-text').textContent =
-        `Du hast ${score} von ${questions.length} richtig.`;
+  document.body.style.overflow = 'hidden';
 
-      const correctionList = document.getElementById('correction-list');
-      correctionList.innerHTML = '';
+  const scoreText = document.getElementById('score-text');
+  scoreText.textContent = `Du hast ${score} von ${questions.length} richtig.`;
 
-      questions.forEach((q, i) => {
-        const p = document.createElement('p');
-        const isCorrect = userAnswers[i] === q.correct;
-        const status = isCorrect ? "✅ Richtig" : `❌ Falsch – Richtige Antwort: ${q.options[q.correct]}`;
-        p.innerHTML = `<strong>Frage ${i + 1}:</strong> ${q.text.replace("___","_____")}<br>${status}`;
-        correctionList.appendChild(p);
-      });
-    }
+  const correctionList = document.getElementById('correction-list');
+  correctionList.innerHTML = '';
+
+  questions.forEach((q, i) => {
+    const p = document.createElement('p');
+    const isCorrect = userAnswers[i] === q.correct;
+    const status = isCorrect ? "✅ Richtig" : `❌ Falsch – Richtige Antwort: ${q.options[q.correct]}`;
+    p.innerHTML = `<strong>Frage ${i + 1}:</strong> ${q.text.replace("___", "_____")}<br>${status}`;
+    correctionList.appendChild(p);
+  });
+}
+
 
     function restartQuiz() {
       currentQuestion = 0;
       score = 0;
+      incorrectAnswers = [];
       userAnswers = [];
 
-      document.querySelector('.result-screen').style.display = 'none';
-      document.querySelector('.start-screen').style.display = 'flex';
-      document.querySelector('.question-screen').style.display = 'none';
+const resultScreen = document.querySelector('.result-screen');
+resultScreen.classList.remove('is-visible');
+resultScreen.style.display = 'none'; 
+resultScreen.scrollTop = 0;
+
+document.querySelector('.start-screen').style.display = 'flex';
+document.querySelector('.question-screen').style.display = 'none';
+document.body.style.overflow = 'hidden';
+
+
     }
 
-    // Swipe: links = weiter, rechts = zurück
+    // Swipe gesture support
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -343,9 +529,17 @@
 
     document.addEventListener('touchend', e => {
       touchEndX = e.changedTouches[0].screenX;
-      if (touchEndX < touchStartX - 50) nextQuestion();
-      if (touchEndX > touchStartX + 50) prevQuestion();
+      handleSwipe();
     });
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) {
+        nextQuestion();
+      }
+      if (touchEndX > touchStartX + 50) {
+        prevQuestion();
+      }
+    }
   </script>
 </body>
 </html>
