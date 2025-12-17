@@ -334,61 +334,42 @@ const questions =
     let score = 0;
     let incorrectAnswers = [];
     let userAnswers = [];
+
+
+
 let mailPingImg = null;
 let startEventId = null;
 let startNotified = false;
 
-
-
-
 function notifyTeacherTestStarted() {
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx2xTjP0Gnq6bwVGmtLaKDrUQZwy4JB6pcTiHNUXQ7wDLkVs9WfjxjU5zRGW4ahTD-P8w/exec";
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyLqhiCn9pVFlInvh3wpgDbM77Y15511_NHQVvm71OjoieU2Vs7JL8BBEjcJT2h3GJ7Og/exec";
   const SECRET = "SxhuleeerQuiz_2025_x98d76_22_MEINSECRET";
 
-  // pro Start genau eine ID (für Duplikat-Sperre im Backend)
+  // ✅ pro Start genau eine Event-ID
   if (!startEventId) {
-    startEventId = (window.crypto && window.crypto.randomUUID)
-      ? window.crypto.randomUUID()
-      : (Date.now() + "_" + Math.random());
+    startEventId =
+      (window.crypto && window.crypto.randomUUID)
+        ? window.crypto.randomUUID()
+        : Date.now() + "_" + Math.random();
   }
 
-  const payloadObj = {
+  const params = new URLSearchParams({
     secret: SECRET,
     studentName: "Stefan",
     eventType: "start",
     quizTitle: document.title,
     pageUrl: window.location.href,
-    eventId: String(startEventId)
-  };
+    eventId: startEventId,
+    cb: Date.now() // ✅ Cache-Buster (wichtig für iOS)
+  });
 
-  // 1) PRIMARY: sendBeacon (auf iOS oft am zuverlässigsten)
-  try {
-    if (navigator.sendBeacon) {
-      const blob = new Blob([JSON.stringify(payloadObj)], { type: "application/json" });
-      navigator.sendBeacon(WEB_APP_URL, blob);
-    }
-  } catch (_) {}
+  const url = WEB_APP_URL + "?" + params.toString();
 
-  // 2) Fallback: fetch POST keepalive
-  try {
-    fetch(WEB_APP_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payloadObj),
-      cache: "no-store",
-      keepalive: true
-    }).catch(() => {});
-  } catch (_) {}
-
-  // 3) Letzter Fallback: GET via Image (Cache-Buster!)
-  try {
-    const params = new URLSearchParams({ ...payloadObj, cb: String(Date.now()) });
-    const url = WEB_APP_URL + "?" + params.toString();
-    mailPingImg = new Image();
-    mailPingImg.src = url;
-  } catch (_) {}
+  // ✅ EINZIGER & ZUVERLÄSSIGER WEG FÜR iPHONE
+  mailPingImg = new Image();
+  mailPingImg.src = url;
 }
+
 
 
 function startQuiz() {
