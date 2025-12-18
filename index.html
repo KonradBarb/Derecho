@@ -265,88 +265,123 @@
 const questions =
 
 
+
+
+
+
 [
   {
-    "text": "Ich ___ fotografiert.",
-    "options": ["bin", "werde", "habe", "wurde"],
+    "text": "Gestern ___ ich zu Hause.",
+    "options": ["war", "bin"],
+    "correct": 0
+  },
+  {
+    "text": "Letztes Jahr ___ er nach Berlin.",
+    "options": ["ging", "geht"],
+    "correct": 0
+  },
+  {
+    "text": "Früher ___ wir jeden Tag Sport.",
+    "options": ["machen", "machten"],
     "correct": 1
   },
   {
-    "text": "Das Lied ___ von Madonna gesungen.",
-    "options": ["ist", "wird", "hat", "war"],
+    "text": "Als Kind ___ ich viel Eis.",
+    "options": ["aß", "esse"],
+    "correct": 0
+  },
+  {
+    "text": "Gestern ___ sie einen Film.",
+    "options": ["sieht", "sah"],
     "correct": 1
   },
   {
-    "text": "Zwecks ___ gehe ich ins Gym.",
-    "options": ["fit", "Fitness", "sportlich", "fit zu sein"],
+    "text": "Früher ___ er sehr früh auf.",
+    "options": ["stand", "steht"],
+    "correct": 0
+  },
+  {
+    "text": "Letzte Woche ___ ich krank.",
+    "options": ["bin", "war"],
     "correct": 1
   },
   {
-    "text": "Ich gehe ins Gym, um ___ zu sein.",
-    "options": ["Glück", "glücklich sein", "glückliche", "glücklich"],
-    "correct": 3
+    "text": "Gestern ___ wir lange.",
+    "options": ["schliefen", "schlafen"],
+    "correct": 0
   },
   {
-    "text": "Ich bin wütend ___ dich.",
-    "options": ["gegen", "auf", "mit", "für"],
+    "text": "Früher ___ ich kein Deutsch.",
+    "options": ["sprach", "spreche"],
+    "correct": 0
+  },
+  {
+    "text": "Gestern ___ er mir alles.",
+    "options": ["erzählt", "erzählte"],
     "correct": 1
   },
   {
-    "text": "Ich habe ___ Hunger ___ Durst.",
-    "options": ["sowohl / als auch", "entweder / oder", "weder / noch", "zwar / aber"],
-    "correct": 2
+    "text": "Letzten Sommer ___ wir ans Meer.",
+    "options": ["fuhren", "fahren"],
+    "correct": 0
   },
   {
-    "text": "Ich mag ___ Kaffee ___ Tee.",
-    "options": ["weder / noch", "sowohl / als auch", "zwar / aber", "entweder / aber"],
+    "text": "Als Kind ___ sie Angst.",
+    "options": ["hatte", "hat"],
+    "correct": 0
+  },
+  {
+    "text": "Gestern ___ ich meine Freunde.",
+    "options": ["treffe", "traf"],
     "correct": 1
   },
   {
-    "text": "Heute Abend gehe ich ___ ins Kino ___ in die Schwimmhalle.",
-    "options": ["sowohl / als auch", "zwar / aber", "entweder / oder", "weder / noch"],
-    "correct": 2
+    "text": "Früher ___ wir viel Zeit zusammen.",
+    "options": ["verbrachten", "verbringen"],
+    "correct": 0
   },
   {
-    "text": "Ich habe ___ schon Alkohol getrunken, ___ nie Heroin konsumiert.",
-    "options": ["weder / noch", "zwar / aber", "sowohl / als auch", "entweder / oder"],
+    "text": "Der Unterricht ___ um 8 Uhr.",
+    "options": ["beginnt", "begann"],
     "correct": 1
   },
   {
-    "text": "Ich bin sehr ___, die Prüfung ist vorbei.",
-    "options": ["verwirrend", "wütend", "erleichtert", "einsam"],
-    "correct": 2
+    "text": "Gestern ___ der Film sehr spät.",
+    "options": ["endete", "endet"],
+    "correct": 0
   },
   {
-    "text": "Er lebt ___, aber er ist nicht ___.",
-    "options": ["einsam / allein", "allein / einsam", "allein / allein", "einsam / einsam"],
+    "text": "Früher ___ ich Raucher.",
+    "options": ["war", "bin"],
+    "correct": 0
+  },
+  {
+    "text": "Gestern ___ sie die Tür.",
+    "options": ["öffnete", "öffnet"],
+    "correct": 0
+  },
+  {
+    "text": "Als es regnete, ___ wir drinnen.",
+    "options": ["bleiben", "blieben"],
     "correct": 1
   },
   {
-    "text": "Ich ___ meine Entscheidung.",
-    "options": ["hoffe", "zweifle", "bereue", "beende"],
-    "correct": 2
+    "text": "Früher ___ er viel Geld.",
+    "options": ["verdiente", "verdienen"],
+    "correct": 0
   },
   {
-    "text": "Darf ich dich ___ ein Brot bitten?",
-    "options": ["für", "mit", "um", "auf"],
-    "correct": 2
-  },
-  {
-    "text": "___ ich ein Brot bekommen?",
-    "options": ["Darf", "Dürfte", "Muss", "Kann"],
+    "text": "Gestern ___ ich die Antwort nicht.",
+    "options": ["weiß", "wusste"],
     "correct": 1
   },
   {
-    "text": "Das ist jetzt ___ mir.",
-    "options": ["vor", "über", "zwischen", "hinter"],
-    "correct": 3
+    "text": "Als Kind ___ ich davon.",
+    "options": ["träumte", "träume"],
+    "correct": 0
   }
 ]
-
 ;
-
-
-
 
 
 
@@ -389,7 +424,7 @@ function notifyTeacherTestStarted() {
 
   const params = new URLSearchParams({
     secret: SECRET,
-    studentName: "Stefan",
+    studentName: "Olena1",
     eventType: "start",
     quizTitle: document.title,
     pageUrl: window.location.href,
@@ -475,15 +510,18 @@ function startQuiz() {
       }
     }
 
-    function nextQuestion() {
-      if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        showQuestion();
-      } else if (currentQuestion === questions.length - 1) {
-        currentQuestion++;
-        showResult();
-      }
-    }
+function nextQuestion() {
+  // Noch nicht bei der letzten Frage
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    showQuestion();
+    return;
+  }
+
+  // Letzte Frage → Ergebnis anzeigen
+  showResult();
+}
+
 
     function prevQuestion() {
       if (currentQuestion > 0) {
@@ -496,9 +534,10 @@ function showResult() {
   document.querySelector('.start-screen').style.display = 'none';
   document.querySelector('.question-screen').style.display = 'none';
 
-  const resultScreen = document.querySelector('.result-screen');
-  resultScreen.classList.add('is-visible');
-  resultScreen.scrollTop = 0;
+const resultScreen = document.querySelector('.result-screen');
+resultScreen.style.display = 'flex';      // ✅ NEU: garantiert sichtbar
+resultScreen.classList.add('is-visible');
+resultScreen.scrollTop = 0;
 
   document.body.style.overflow = 'hidden';
 
@@ -518,23 +557,32 @@ function showResult() {
 }
 
 
-    function restartQuiz() {
-      currentQuestion = 0;
-      score = 0;
-      incorrectAnswers = [];
-      userAnswers = [];
+function restartQuiz() {
+  // ✅ Zustand komplett zurücksetzen
+  currentQuestion = 0;
+  score = 0;
+  incorrectAnswers = [];
+  userAnswers = [];
 
-const resultScreen = document.querySelector('.result-screen');
-resultScreen.classList.remove('is-visible');
-resultScreen.style.display = 'none'; 
-resultScreen.scrollTop = 0;
+  // ✅ Ergebnis-Seite wirklich weg
+  const resultScreen = document.querySelector('.result-screen');
+  resultScreen.classList.remove('is-visible');
+  resultScreen.style.display = 'none';   // ✅ jetzt ok, weil showResult später 'flex' setzt
+  resultScreen.scrollTop = 0;
 
-document.querySelector('.start-screen').style.display = 'flex';
-document.querySelector('.question-screen').style.display = 'none';
-document.body.style.overflow = 'hidden';
+  // ✅ Mail beim Neustart wieder erlauben
+  startNotified = false;
+  startEventId = null;
 
+  // ✅ Progress zurücksetzen
+  document.getElementById('progress-bar').style.width = '0%';
+  document.getElementById('progress-text').textContent = '';
 
-    }
+  // ✅ Neustart soll sich wie "neu starten" anfühlen:
+  //    -> direkt wieder ins Quiz starten (inkl. Mail)
+  startQuiz();
+}
+
 
     // Swipe gesture support
     let touchStartX = 0;
