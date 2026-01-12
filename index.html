@@ -268,74 +268,234 @@ const questions =
 
 
 
-[
-  { "text": "der Meilenstein", "options": ["przeszkoda", "kamień milowy"], "correct": 1 },
-  { "text": "bemerken", "options": ["zauważać", "zapominać"], "correct": 0 },
-  { "text": "Hast du _____, dass bald ein neues Jahr beginnt?", "options": ["bemerken", "bemerkt"], "correct": 1 },
-
-  { "text": "das Jahresende", "options": ["koniec roku", "początek roku"], "correct": 0 },
-  { "text": "aufgelegt sein, etwas zu tun", "options": ["nie mieć czasu", "mieć ochotę / być w nastroju"], "correct": 1 },
-  { "text": "Warst du dafür aufgelegt, das Jahresende richtig zu ___?", "options": ["erlebt", "erleben"], "correct": 1 },
-
-  { "text": "sich ein Video anschauen", "options": ["nakręcić wideo", "obejrzeć wideo"], "correct": 1 },
-  { "text": "sich einen Weihnachtsfilm anschauen", "options": ["obejrzeć film bożonarodzeniowy", "napisać film bożonarodzeniowy"], "correct": 0 },
-
-  { "text": "Hast du Zeit gehabt, um viel an Weihnachten ___?", "options": ["denken", "zu denken"], "correct": 1 },
-  { "text": "an etwas denken", "options": ["pytać o coś", "myśleć o czymś"], "correct": 1 },
-  { "text": "Ich denke oft ___ meine Kindheit.", "options": ["an", "über"], "correct": 0 },
-
-  { "text": "über etwas nachdenken", "options": ["rozmyślać nad czymś", "opowiadać o czymś"], "correct": 0 },
-  { "text": "Ich habe lange ___ das Problem nachgedacht.", "options": ["über", "an"], "correct": 0 },
-
-  { "text": "sich über etwas Gedanken machen", "options": ["śmiać się z czegoś", "zastanawiać się nad czymś"], "correct": 1 },
-  { "text": "Ich mache mir viele Gedanken ___ meine Zukunft.", "options": ["über", "an"], "correct": 0 },
-
-  { "text": "sich an etwas erinnern", "options": ["zgadzać się z czymś", "przypominać sobie coś"], "correct": 1 },
-  { "text": "Ich kann mich kaum ___ die Geschenke erinnern.", "options": ["über", "an"], "correct": 1 },
-
-  { "text": "zum ersten Mal", "options": ["ostatnim razem", "po raz pierwszy"], "correct": 1 },
-  { "text": "Ich war ___ in Berlin.", "options": ["zum ersten Male", "zum ersten Mal"], "correct": 1 },
-  { "text": "Es war das erste Mal, dass ich ihn ___.", "options": ["gesehen habe", "sehe"], "correct": 0 },
-
-  { "text": "Ich habe mich so gefühlt, als ob + Konjunktiv II", "options": ["Czułem/am się, jakby…", "Zdecydowałem/am, że…"], "correct": 0 },
-  { "text": "Ich habe mich so gefühlt, als ob ich sein Butler ___.", "options": ["bin", "wäre"], "correct": 1 },
-
-  { "text": "Ich hatte das Gefühl, dass …", "options": ["Wiedziałem/am, że…", "Miałem/am wrażenie, że…"], "correct": 1 },
-  { "text": "Ich hatte das Gefühl, dass es bald ___ Jahr beginnt.", "options": ["einen neuen", "ein neues"], "correct": 1 },
-
-  { "text": "der Termin", "options": ["termin / spotkanie", "wakacje"], "correct": 0 },
-  { "text": "viele Termine", "options": ["dużo odpoczynku", "wiele terminów"], "correct": 1 },
-  { "text": "Musstest du viele Dinge ___?", "options": ["geschafft", "schaffen"], "correct": 1 },
-
-  { "text": "traurig", "options": ["dumny", "smutny"], "correct": 1 },
-  { "text": "Warst du traurig, weil deine Mutter das normalerweise ___?", "options": ["macht", "machte"], "correct": 0 },
-
-  { "text": "Es ist schon lange her, dass …", "options": ["To dopiero niedawno…", "Minęło już dużo czasu, odkąd…"], "correct": 1 },
-  { "text": "Es ist schon lange her, dass ich Berlin ___.", "options": ["besuche", "besucht habe"], "correct": 1 },
-
-  { "text": "bewerten", "options": ["wybierać", "oceniać"], "correct": 1 },
-  { "text": "Sie ___ meine Arbeit.", "options": ["bewerten", "bewertet"], "correct": 1 },
-
-  { "text": "der Feinschliff", "options": ["ostateczne poprawki", "pierwszy szkic"], "correct": 0 },
-  { "text": "auswendig lernen", "options": ["czytać na głos", "uczyć się na pamięć"], "correct": 1 },
-
-  { "text": "mitbringen", "options": ["zostawić w domu", "przynieść ze sobą"], "correct": 1 },
-  { "text": "Notizen", "options": ["notatki", "pytania"], "correct": 0 },
-  { "text": "Weißt du, ob du Notizen mitbringen ___?", "options": ["darf", "darfst"], "correct": 1 },
-
-  { "text": "dabei haben", "options": ["mieć przy sobie", "zgubić"], "correct": 0 },
-  { "text": "Ich habe meinen Ausweis ___ .", "options": ["mit", "dabei"], "correct": 1 },
-
-  { "text": "Bescheid sagen", "options": ["zablokować", "dać znać"], "correct": 1 },
-  { "text": "Sag mir Bescheid, wenn du aufhören ___.", "options": ["soll", "sollst"], "correct": 1 },
-
-  { "text": "Je älter ich werde, ___ weniger intensiv erlebe ich Weihnachten.", "options": ["desto", "je"], "correct": 0 },
-  { "text": "Je ___ Zeit ich habe, desto gestresster fühle ich mich.", "options": ["wenig", "weniger"], "correct": 1 },
-  { "text": "Je mehr Geschenke ich bekomme, ___ weniger kann ich mich daran erinnern.", "options": ["je", "desto"], "correct": 1 },
-  { "text": "Je entspannter ich bin, desto ___ wird mein Prüfungsergebnis.", "options": ["besser", "gut"], "correct": 0 },
-  { "text": "Je mehr Hunger ich habe, ___ mehr Sandwiches mache ich mir.", "options": ["je", "umso"], "correct": 1 },
-
+  [
+  {
+    "text": "Welcher Zug ist ___?",
+    "options": ["der am schnellsten", "der schnellste"],
+    "correct": 1
+  },
+  {
+    "text": "Welcher Zug fährt ___?",
+    "options": ["am schnellsten", "der schnellste"],
+    "correct": 0
+  },
+  {
+    "text": "Das ist ___ Buch, das ich je gelesen habe.",
+    "options": ["am spannendsten", "das spannendste"],
+    "correct": 1
+  },
+  {
+    "text": "Dieses Buch ist ___.",
+    "options": ["das am spannendsten", "das spannendste"],
+    "correct": 1
+  },
+  {
+    "text": "Sie ist ___ Frau der Welt.",
+    "options": ["die schönste", "die am schönsten"],
+    "correct": 0
+  },
+  {
+    "text": "Wann fühlst du dich ___?",
+    "options": ["die schönste", "am schönsten"],
+    "correct": 1
+  },
+  {
+    "text": "München ist ___ Stadt in Deutschland.",
+    "options": ["die am teuersten", "die teuerste"],
+    "correct": 1
+  },
+  {
+    "text": "In dieser Stadt ist das Leben ___.",
+    "options": ["am teuersten", "das am teuersten"],
+    "correct": 0
+  },
+  {
+    "text": "Wer ist ___ Schüler in eurer Klasse?",
+    "options": ["der beste", "der am besten"],
+    "correct": 0
+  },
+  {
+    "text": "Wer lernt ___?",
+    "options": ["am besten", "der beste"],
+    "correct": 0
+  },
+  {
+    "text": "Welcher Tag im Jahr ist ___?",
+    "options": ["der am kürzesten", "der kürzeste"],
+    "correct": 1
+  },
+  {
+    "text": "Im Winter sind die Tage ___.",
+    "options": ["die am kürzesten", "die kürzesten"],
+    "correct": 0
+  },
+  {
+    "text": "Das ist ___ Gebäude der Stadt.",
+    "options": ["das höchste", "das am höchsten"],
+    "correct": 0
+  },
+  {
+    "text": "Dieses Gebäude ist ___.",
+    "options": ["das am höchsten", "das höchste / das höchste Gebäude / am höchsten"],
+    "correct": 1
+  },
+  {
+    "text": "Wie heißt ___ Freundin?",
+    "options": ["deine am besten", "deine beste"],
+    "correct": 1
+  },
+  {
+    "text": "Mit wem verstehst du dich ___?",
+    "options": ["am besten", "der beste"],
+    "correct": 0
+  },
+  {
+    "text": "Die Giraffe hat ___ Hals.",
+    "options": ["den längsten", "den am längsten"],
+    "correct": 0
+  },
+  {
+    "text": "Bei diesem Tier ist der Hals ___.",
+    "options": ["der am längsten", "der längste  / am längsten"],
+    "correct": 1
+  },
+  {
+    "text": "Er ist ___ Mensch in Europa.",
+    "options": ["der am reichsten", "der reichste"],
+    "correct": 1
+  },
+  {
+    "text": "In diesem Land leben ___ die Menschen.",
+    "options": ["die reichsten", "die am reichsten"],
+    "correct": 1
+  },
+  {
+    "text": "vernachlässigen",
+    "options": ["zaniedbywać", "akceptować"],
+    "correct": 0
+  },
+  {
+    "text": "leugnen",
+    "options": ["zaprzeczać", "przyznawać się"],
+    "correct": 0
+  },
+  {
+    "text": "der Leugner",
+    "options": ["zaprzeczający", "świadek"],
+    "correct": 0
+  },
+  {
+    "text": "jemanden anstecken",
+    "options": ["zarazić kogoś", "chronić kogoś"],
+    "correct": 0
+  },
+  {
+    "text": "der Widerwille",
+    "options": ["niechęć", "entuzjazm"],
+    "correct": 0
+  },
+  {
+    "text": "wider (gegen)",
+    "options": ["przeciwko", "dla"],
+    "correct": 0
+  },
+  {
+    "text": "Experten",
+    "options": ["eksperci", "turyści"],
+    "correct": 0
+  },
+  {
+    "text": "Experten werden ___ .",
+    "options": ["diskreditiert", "diskreditieren"],
+    "correct": 0
+  },
+  {
+    "text": "jemanden von etwas überzeugen",
+    "options": ["przekonać kogoś do czegoś", "oszukać kogoś"],
+    "correct": 0
+  },
+  {
+    "text": "Er hat versucht, mich davon zu überzeugen, dass …",
+    "options": ["próbował mnie przekonać, że…", "zapomniał mi powiedzieć, że…"],
+    "correct": 0
+  },
+  {
+    "text": "der Bildungsgrad",
+    "options": ["poziom wykształcenia", "wiek"],
+    "correct": 0
+  },
+  {
+    "text": "Anfälligkeit für etwas",
+    "options": ["podatność na coś", "odporność na coś"],
+    "correct": 0
+  },
+  {
+    "text": "riskant",
+    "options": ["ryzykowny", "bezpieczny"],
+    "correct": 0
+  },
+  {
+    "text": "Das ist ein Risiko.",
+    "options": ["To jest ryzyko.", "To jest gwarancja."],
+    "correct": 0
+  },
+  {
+    "text": "sich etwas denken",
+    "options": ["pomyśleć coś (dla siebie)", "powiedzieć coś głośno"],
+    "correct": 0
+  },
+  {
+    "text": "Ich habe mir gedacht, dass …",
+    "options": ["pomyślałem/am sobie, że…", "zostałem/am zmuszony/a, że…"],
+    "correct": 0
+  },
+  {
+    "text": "zunehmen",
+    "options": ["przybierać na wadze", "tracić na wadze"],
+    "correct": 0
+  },
+  {
+    "text": "abnehmen",
+    "options": ["chudnąć", "przybierać"],
+    "correct": 0
+  },
+  {
+    "text": "Das ist der ___ Teil.",
+    "options": ["schwierigste", "am schwierigsten"],
+    "correct": 0
+  },
+  {
+    "text": "Der Teil ist ___ .",
+    "options": ["am schwierigsten", "der schwierigste"],
+    "correct": 0
+  },
+  {
+    "text": "Ich stehe unter ___ Druck.",
+    "options": ["großem", "großen"],
+    "correct": 0
+  },
+  {
+    "text": "eine schlechte Entscheidung",
+    "options": ["zła decyzja", "dobra okazja"],
+    "correct": 0
+  },
+  {
+    "text": "Heute ___ ich akzeptiert.",
+    "options": ["werde", "wurde"],
+    "correct": 0
+  },
+  {
+    "text": "Gestern ___ ich akzeptiert.",
+    "options": ["wurde", "werde"],
+    "correct": 0
+  },
+  {
+    "text": "Ich ___ viel arbeiten. (Präteritum)",
+    "options": ["musste", "muss"],
+    "correct": 0
+  }
 ]
+
 
 ;
 
